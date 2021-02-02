@@ -55,4 +55,4 @@ function generateBet365Token() {
 }
 
 generateBet365Token();
-setInterval(generateBet365Token, 10 * 60 * 1000);
+setInterval(generateBet365Token, 5 * 60 * 1000);
