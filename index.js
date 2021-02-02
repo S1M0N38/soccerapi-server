@@ -4,13 +4,14 @@ import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 
 const bet365 = {
-  token: undefined,
+  headers: undefined,
+  cookies: undefined,
 };
 
 const server = createServer((req, res) => {
   if (req.url === '/bet365') {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.write(bet365.token);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.write(JSON.stringify(bet365));
     res.end();
   }
 });
@@ -27,6 +28,7 @@ function generateBet365Token() {
     .launch({ headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox'] })
     .then(async (browser) => {
       const page = await browser.newPage();
+
       await page.evaluateOnNewDocument(() => {
         Object.defineProperty(navigator, 'maxTouchPoints', {
           get() {
@@ -34,33 +36,23 @@ function generateBet365Token() {
           },
         });
       });
+
       await page.goto('https://www.bet365.com');
       await page.waitForRequest((req) => {
         if (req.url().includes('SportsBook')) {
-          bet365.token = req.headers()['x-net-sync-term'];
-          console.log(`${new Date()} - new token ${bet365.token}`);
+          bet365.headers = {
+            'User-Agent': req.headers()['user-agent'],
+            Referer: req.headers().referer,
+            'X-Net-Sync-Term': req.headers()['x-net-sync-term'],
+          };
           return true;
         }
       });
+      bet365.cookies = await page.cookies();
+      console.log(`${new Date()} - generate bet365 values`);
       await browser.close();
     });
 }
 
 generateBet365Token();
 setInterval(generateBet365Token, 10 * 60 * 1000);
-
-// function testHeadless() {
-//   const stealth = StealthPlugin();
-//   puppeteer
-//     .use(stealth)
-//     .launch({ headless: true })
-//     .then(async (browser) => {
-//       const page = await browser.newPage();
-//       await page.goto('https://bot.sannysoft.com');
-//       await page.waitFor(5000);
-//       await page.screenshot({ path: './stealth.png', fullPage: true });
-//       await browser.close();
-//     });
-// }
-
-// testHeadless();
