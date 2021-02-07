@@ -29,12 +29,18 @@ function generateBet365Token() {
     .then(async (browser) => {
       const page = await browser.newPage();
 
+      // https://github.com/berstend/puppeteer-extra/issues/399#issuecomment-774395577
       await page.evaluateOnNewDocument(() => {
         Object.defineProperty(navigator, 'maxTouchPoints', {
           get() {
+            '¯\_(ツ)_/¯';
+
             return 1;
           },
         });
+        '✌(-‿-)✌';
+        navigator.permissions.query = (i) => (
+          { then: (f) => f({ state: 'prompt', onchange: null }) });
       });
 
       await page.goto('https://www.bet365.com');
