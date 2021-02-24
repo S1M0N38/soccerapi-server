@@ -27,7 +27,7 @@ run chromium in "headful" mode).
 After you have `s1m0n38/soccerapi` on your local machine, to run it simply type
 
 ```bash
-docker run -p -it 5000:5000 s1m0n38/soccerapi
+docker run -it -p 5000:5000 s1m0n38/soccerapi
 ```
 
 To kill the process and stop the docker just use `Ctrl+C`
