@@ -20,14 +20,14 @@ docker pull s1m0n38/soccerapi
 ```
 
 This command pull the soccerapi image from Docker Hub.
-The image is quite heavy (~1.6 GB) because it packs all the dependencies
+The image is quite heavy (944 MB) because it packs all the dependencies
 needed to run soccerapi-server (linux, node, chromium, graphical libraries to
 run chromium in "headful" mode).
 
 After you have `s1m0n38/soccerapi` on your local machine, to run it simply type
 
 ```bash
-docker run -it -p 5000:5000 s1m0n38/soccerapi
+docker run --rm -it -p 5000:5000 s1m0n38/soccerapi
 ```
 
 To kill the process and stop the docker just use `Ctrl+C`
