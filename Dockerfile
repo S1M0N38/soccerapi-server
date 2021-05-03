@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:12-slim
 
 RUN apt update
 RUN apt-get install -yq \
@@ -7,7 +7,7 @@ RUN apt-get install -yq \
   libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 \
   libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 \
   libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 \
-  libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 \
+  libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 libgbm-dev\
   lsb-release xdg-utils wget x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi \ 
   xfonts-scalable xfonts-cyrillic x11-apps xvfb
 
